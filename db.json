@@ -1,0 +1,58 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "email": "user1@example.com",
+      "password": "password123"
+    },
+    {
+      "id": "2",
+      "email": "user2@example.com",
+      "password": "securepass"
+    }
+  ],
+  "events": [
+    {
+      "id": "1",
+      "title": "React Workshop",
+      "date": "2025-02-15",
+      "description": "Learn React basics and advanced concepts."
+    },
+    {
+      "id": "2",
+      "title": "Redux Bootcamp",
+      "date": "2025-02-20",
+      "description": "Master state management with Redux."
+    },
+    {
+      "id": "b803",
+      "title": "Testing ",
+      "description": "This is a session of testing on jest using jasmine",
+      "date": "2025-01-26"
+    },
+    {
+      "id": "88c5",
+      "title": "React learning",
+      "description": "React redux from Youtube and MDN ",
+      "date": "2025-01-24"
+    },
+    {
+      "id": "cbfc",
+      "title": "Redux project demo",
+      "description": "It will include showing your progress till now",
+      "date": "2025-01-29"
+    },
+    {
+      "id": "ccd3",
+      "title": "Javascript workshop",
+      "description": "It includes complete guide realted to javascript modern concepts.",
+      "date": "2025-01-31"
+    },
+    {
+      "id": "710a",
+      "title": "Tailwind CSS session",
+      "description": "Learn and practise session",
+      "date": "2025-01-31"
+    }
+  ]
+}
