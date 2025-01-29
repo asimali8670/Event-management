@@ -76,10 +76,21 @@ const EventList = ({ eventList = [], setSearchQuery }) => {
     return () => clearTimeout(delayDebounceFn);
   }, [searchTerm, setSearchQuery]);
 
-  // Memoize filtered events
+  // Handle search on button click
+  const handleSearch = () => {
+    setSearchTerm(searchTerm);
+  };
+
   const displayedEvents = useMemo(() => {
-    return eventList.length > 0 ? eventList : events;
-  }, [eventList, events]);
+    if (searchTerm) {
+      return events.filter(
+        (event) =>
+          event.name &&
+          event.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+    return events;
+  }, [events, searchTerm]);
 
   if (loading) return <p>Loading events...</p>;
   if (error) return <ErrorMessage>Error loading events: {error}</ErrorMessage>;
@@ -92,6 +103,7 @@ const EventList = ({ eventList = [], setSearchQuery }) => {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
+      <button onClick={handleSearch}>Search</button>
       <Title>Event List</Title>
       {displayedEvents.length === 0 ? (
         <p>No events found.</p>
