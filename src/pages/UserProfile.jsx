@@ -36,7 +36,7 @@ const UserProfile = () => {
   }, []);
 
   if (!user) {
-    return <div>No user logged in</div>;
+    return <div> User logged in!</div>;
   }
 
   return (

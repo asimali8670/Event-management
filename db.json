@@ -53,6 +53,18 @@
       "title": "Tailwind CSS session",
       "description": "Learn and practise session",
       "date": "2025-01-31"
+    },
+    {
+      "id": "9f5b",
+      "title": "My application demo",
+      "description": "Event Management application using react and redux tool kit with performance optimization",
+      "date": "2025-01-30"
+    },
+    {
+      "id": "95c3",
+      "title": "Saga workshop",
+      "description": "Learning and practise",
+      "date": "2025-01-31"
     }
   ]
 }

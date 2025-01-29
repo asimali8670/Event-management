@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo, useState, lazy, Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchEventsError,
@@ -6,13 +6,15 @@ import {
   fetchEventsSuccess,
 } from "../redux/slices/eventsSlice";
 import axios from "axios";
-import EventCard from "../components/EventCard";
 import styled from "styled-components";
+
+// Lazy load EventCard
+const EventCard = lazy(() => import("../components/EventCard"));
 
 // Styled Components
 const Container = styled.div`
   padding: 20px;
-  backgroundcolor: #f5f5dc;
+  background-color: #f5f5dc;
 `;
 
 const SearchInput = styled.input`
@@ -49,6 +51,7 @@ const ErrorMessage = styled.p`
 const EventList = ({ eventList = [], setSearchQuery }) => {
   const dispatch = useDispatch();
   const { events, loading, error } = useSelector((state) => state.events);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -64,26 +67,41 @@ const EventList = ({ eventList = [], setSearchQuery }) => {
     fetchEvents();
   }, [dispatch]);
 
-  const displayedEvents = eventList.length > 0 ? eventList : events;
+  // Debounced search query
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      setSearchQuery(searchTerm);
+    }, 300);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchTerm, setSearchQuery]);
+
+  // Memoize filtered events
+  const displayedEvents = useMemo(() => {
+    return eventList.length > 0 ? eventList : events;
+  }, [eventList, events]);
 
   if (loading) return <p>Loading events...</p>;
   if (error) return <ErrorMessage>Error loading events: {error}</ErrorMessage>;
 
   return (
-    <Container style={{ backgroundColor: "#f5f5dc" }}>
+    <Container>
       <SearchInput
         type="text"
         placeholder="Search events..."
-        onChange={(e) => setSearchQuery(e.target.value)} // Update search query
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
       />
       <Title>Event List</Title>
       {displayedEvents.length === 0 ? (
         <p>No events found.</p>
       ) : (
         <EventListContainer>
-          {displayedEvents.map((event) => (
-            <EventCard key={event.id} event={event} />
-          ))}
+          <Suspense fallback={<p>Loading events...</p>}>
+            {displayedEvents.map((event) => (
+              <EventCard key={event.id} event={event} />
+            ))}
+          </Suspense>
         </EventListContainer>
       )}
     </Container>
